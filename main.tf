@@ -38,7 +38,7 @@ resource "kind_cluster" "default" {
 #      role = "worker"
 #      image = "kindest/node:v1.23.4"
 #    }
-#  }
+  }
 }
 
 provider "kubectl" {

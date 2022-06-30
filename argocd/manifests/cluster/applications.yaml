@@ -1,17 +1,23 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kafka
+  name: product
   namespace: argocd
 spec:
-  destination:
-    namespace: kafka
-    server: https://kubernetes.default.svc
-  project: kafka
-  source:
-    path: argocd/manifests/kafka
-    repoURL: https://github.com/piomin/sample-terraform-kubernetes-argocd.git
-    targetRevision: HEAD
   syncPolicy:
     syncOptions:
-      - CreateNamespace=true
+      - CreateNamespace=false
+    automated:
+      selfHeal: true # sincronizar automaticamente com o repositorio
+      prune: true # caso exclua algum arquivo, o argo vai excluir o recurso no kubernetes
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: product
+  source:
+    path: helm
+    repoURL: 'https://github.com/fabriciolfj/spring-fast-argocd'
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+        - values.yaml
+  project: default
